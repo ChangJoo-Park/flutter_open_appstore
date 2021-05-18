@@ -36,7 +36,6 @@ public class OpenAppstorePlugin implements FlutterPlugin {
           result.success("Android " + android.os.Build.VERSION.RELEASE);
         }
         else if (call.method.equals("openappstore")) {
-          result.success("Android " + android.os.Build.VERSION.RELEASE);
           String android_id = call.argument("android_id");
           String manufacturer = android.os.Build.MANUFACTURER;
           if (manufacturer.equals("Amazon")) {
@@ -48,7 +47,7 @@ public class OpenAppstorePlugin implements FlutterPlugin {
               launchActivity(context, "https://play.google.com/store/apps/details?id=" + android_id);
             }
           }
-          result.success(null);
+          result.success("Android " + android.os.Build.VERSION.RELEASE);
         }
         else {
           result.notImplemented();
