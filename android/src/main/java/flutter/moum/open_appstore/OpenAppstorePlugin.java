@@ -36,25 +36,30 @@ public class OpenAppstorePlugin implements FlutterPlugin {
           result.success("Android " + android.os.Build.VERSION.RELEASE);
         }
         else if (call.method.equals("openappstore")) {
-          result.success("Android " + android.os.Build.VERSION.RELEASE);
           String android_id = call.argument("android_id");
           String manufacturer = android.os.Build.MANUFACTURER;
           if (manufacturer.equals("Amazon")) {
-            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("amzn://apps/android?p=" + android_id)));
+            launchActivity(context, "amzn://apps/android?p=" + android_id);
           } else {
             try {
-              context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + android_id)));
+              launchActivity(context, "market://details?id=" + android_id);
             } catch (android.content.ActivityNotFoundException e) {
-              context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + android_id)));
+              launchActivity(context, "https://play.google.com/store/apps/details?id=" + android_id);
             }
           }
-          result.success(null);
+          result.success("Android " + android.os.Build.VERSION.RELEASE);
         }
         else {
           result.notImplemented();
         }
       }
     });
+  }
+
+  public void launchActivity(Context context, String uri) {
+    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    context.startActivity(intent);
   }
 
 
